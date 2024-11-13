@@ -39,3 +39,23 @@ const initState= {
 }
 
 
+export default function produitReducer(state = initState , action  ){
+    switch(action.type){
+        case 'AJOUTER_PRODUIT':
+            return {...state ,produits :  [...state.produits , action.payload]}
+        
+        case 'MODIFIER_PRODUIT':
+            let newState = state.produits.filter((item )=>{
+                return item.codeProduit ==  action.payload.produitId
+            })
+            return {...newState , produits : [...state.produits , action.payload.newProduct]}
+        
+        case 'SUPPRIMER_PRODUIT' : 
+            let new_State = state.produits.filter((item )=>{
+                return item.codeProduit ==  action.payload.produitId
+            })
+            return {...new_State};
+
+    }
+}
+
