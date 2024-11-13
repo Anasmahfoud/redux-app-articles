@@ -1,24 +1,22 @@
-
-
-export function ajouterProduit(newProduit){
+export function ajouterAchat(newProduit){
     return {
-        type : 'AJOUTER_ARTICLE',
+        type : 'AJOUTER_ACHAT',
         payload : newProduit
     }
 }
 
 
-export function supprimerProduit(produitId){
+export function supprimerAchat(produitId){
     return {
-        type : 'SUPPRIMER_ARTICLE',
+        type : 'SUPPRIMER_ACHAT',
         payload : produitId
     }
 }
 
 
-export function modifierProduit(produitId, newProduct){
+export function modifierAchat(produitId, newProduct){
     return {
-        type : 'MODIFIER_ARTICLE',
+        type : 'MODIFIER_ACHAT',
         payload : { produitId : produitId , newProduct : newProduct}
     }
 }
