@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ajouterAchat, supprimerAchat } from './redux/actions/produitActions';
 
@@ -23,15 +23,32 @@ const Produits = () => {
     setFilteredAchats(achats.filter(achat => achat.numero === numero));
   };
 
+ 
+  let current_product  = {}
+  let color = '';
+
+  useEffect(()=>{
+    setCodeProduit(produits[0].codeProduit)
+    current_product = produits.find((item)=>{
+      return item.codeProduit == produits[0].codeProduit;
+    })
+    color = current_product.quantiteStocke >= 5 ? 'blue' : 'red';
+    }, [])
+
   return (
     <div>
       <h2>Produits</h2>
       <select onChange={(e) => setCodeProduit(e.target.value)} className="mb-4 p-2 border rounded">
-        {produits.map(produit => (
-          <option key={produit.codeProduit} value={produit.codeProduit}>
+        {produits.map((produit) => {
+          if (produit.codeProduit == codeProduit){
+            current_product = produit;
+            color = current_product.quantiteStocke >= 5 ? 'blue' : 'red';
+
+          }
+          return <option key={produit.codeProduit} value={produit.codeProduit}>
             {produit.intitule}
           </option>
-        ))}
+          })}
       </select>
       <input
         type="number"
@@ -39,6 +56,10 @@ const Produits = () => {
         onChange={(e) => setQte(e.target.value)}
         className="mb-4 p-2 border rounded"
       />
+      
+      <h3>Quantité est : <span style={{color: color}} >{current_product.quantiteStocke}</span></h3>
+    
+      
       <input
         type="text"
         value={numero}
@@ -46,7 +67,7 @@ const Produits = () => {
         placeholder="Numéro d'achat"
         className="mb-4 p-2 border rounded"
       />
-      <button onClick={handleAdd} className="mb-4 p-2 bg-blue-500 text-white rounded">
+      <button disabled={current_product.quantiteStocke == 0 && true} onClick={handleAdd} className="mb-4 p-2 bg-blue-500 text-white rounded">
         Ajouter Achat
       </button>
 
